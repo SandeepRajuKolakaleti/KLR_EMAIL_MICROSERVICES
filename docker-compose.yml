@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+    emailservice:
+        build:
+            context: ./
+        container_name: emailservice
+        hostname: emailservice
+        ports:
+            - "8083:3001" # out side exposed port: inside main ts port
+        networks:
+            - email-service-net
+
+    nginx:
+        build:
+            context: ./
+        container_name: nginx
+        hostname: nginx
+        depends_on:
+            - emailservice
+        ports:
+            - "3001:3001" # out side exposed port: inside main ts port
+        networks:
+            - email-service-net
+
+    redis:
+        image: redis:latest
+        command: ["redis-server", "--bind", "redis", "--port", "5003"]
+        ports:
+            - 5003:5003 # out side exposed port: inside main ts port
+        networks:
+            - email-service-net
+
+    mysql:
+        container_name: email_mysql
+        restart: always
+        image: mysql:latest
+        environment:
+            MYSQL_USER: 'sandeep'
+            MYSQL_PASS: 'sandeep123'
+            MYSQL_ROOT_PASSWORD: 'password_for_root_user'
+        volumes:
+        - mysqldb:/var/lib/mysql
+volumes:
+  mysqldb:
+
+networks:
+    email-service-net:
+        external: true
+
