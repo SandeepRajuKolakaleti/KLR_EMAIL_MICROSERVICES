@@ -1,4 +1,5 @@
-import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { LoginApigateDto } from '../models/dto/LoginApigate.dto';
 import { AuthService } from '../../auth/services/auth/auth.service';

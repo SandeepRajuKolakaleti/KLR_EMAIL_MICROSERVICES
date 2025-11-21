@@ -1,11 +1,10 @@
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { Global, HttpModule, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { join } from 'path';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { MailTemplate } from './templates/mail.templates';
-import { MailDto } from './templates/mail.dto';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../auth/auth.module';
 import { RedisCacheModule } from '../redis/redis.module';
@@ -15,7 +14,6 @@ import { EmailController } from './controller/email.controller';
 @Global()
 @Module({
   imports: [
-    HttpModule,
     TypeOrmModule.forFeature([]),
     AuthModule,
     RedisCacheModule,

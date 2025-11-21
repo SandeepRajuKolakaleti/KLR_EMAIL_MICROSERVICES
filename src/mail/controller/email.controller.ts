@@ -1,11 +1,9 @@
 import { Body, Controller, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
-import { HttpService } from '@nestjs/common';
 import { SendEmailRequest } from '../models/dto/SendEmail.request';
 import { MailTemplate } from '../templates/mail.templates';
 
 @Controller('email')
 export class EmailController {
-    private http: HttpService;
     constructor(private mailTemplate: MailTemplate) { }
 
     @Post('send')
