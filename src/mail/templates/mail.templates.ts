@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MailDto } from './mail.dto';
 import { EmailService } from '../service/email.service';
-import { AppConstants } from 'src/app.constants';
+import { AppConstants } from '../../app.constants';
 
 @Injectable()
 export class MailTemplate {
@@ -20,4 +20,24 @@ export class MailTemplate {
     };
     return await this.emailService.sendMail(this.mailOptions);
   };
+
+  async userOtpEmailTemplate(request: { email: string; otp: string }) {
+    const html = `
+      <div style="font-family: Arial; padding: 20px;">
+        <h2>KLR Group Account</h2>
+        <p>Your OTP is:</p>
+        <h1>${request.otp}</h1>
+        <p>This OTP is valid for 2 minutes.</p>
+      </div>
+    `;
+
+    await this.emailService.sendMail({
+      from: `"KLRGROUP" <${process.env.MAIL_FROM}>`,
+      to: request.email,
+      subject: "Your KLR Group OTP Code",
+      html
+    });
+
+    return { message: 'Email sent successfully' };
+  }
 }

@@ -10,11 +10,14 @@ import { AuthModule } from '../auth/auth.module';
 import { RedisCacheModule } from '../redis/redis.module';
 import { EmailService } from './service/email.service';
 import { EmailController } from './controller/email.controller';
+import { OtpController } from './controller/otp.controller';
+import { OtpService } from './service/otp.service';
+import { UserEntity } from './models/user.entity';
 
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([UserEntity]),
     AuthModule,
     RedisCacheModule,
     MailerModule.forRootAsync({
@@ -44,8 +47,8 @@ import { EmailController } from './controller/email.controller';
       inject: [ConfigService],
     }),
   ],
-  providers: [EmailService, MailService, MailTemplate],
-  exports: [EmailService, MailService, MailTemplate],
-  controllers: [EmailController]
+  providers: [EmailService, MailService, MailTemplate, OtpService],
+  exports: [EmailService, MailService, MailTemplate, OtpService],
+  controllers: [EmailController, OtpController]
 })
 export class MailModule {}
